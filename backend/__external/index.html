@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo Request API</title>
+</head>
+<body>
+  <!-- <form action="/asasa" method="POST" enctype="multipart/form-data"></form> -->
+  <input type="text" id="title" placeholder="title" value="mi title">
+  <input type="text" id="description" placeholder="description" value="mi description">
+  <input type="file" id="image">
+  <button onclick="onClick()">Upload</button>
+
+  <script>
+    const onClick = async () => {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const image = document.getElementById('image').files[0];
+      
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('image', image);
+      const res = await create(formData);
+      // TODO
+      console.log('FOUR: ', res);
+
+      const list = await get();
+      console.log('list: ', list);
+    }
+
+    const get = async () => {
+      const response = await fetch('http://localhost:4500/post')
+      return response.json();
+    }
+
+    const create = async (formData, url = 'http://localhost:4500/post') => {
+      const response = await fetch(url, {
+          method: 'POST',
+          body: formData
+        })
+      return response.json();
+    }
+
+  </script>
+</body>
+</html>
